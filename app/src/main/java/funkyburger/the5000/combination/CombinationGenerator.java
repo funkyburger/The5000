@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CombinationGenerator {
+    // TODO make List as Stream
     public static List<Combination> generate() {
         return Arrays.asList(new Combination(Arrays.asList(1), 100),
                 new Combination(Arrays.asList(5), 50),

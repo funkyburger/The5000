@@ -11,7 +11,7 @@ public class Combination {
         this.score = score;
     }
 
-    public List<Integer> GetSequence() {
+    public List<Integer> getSequence() {
         return sequence;
     }
     public int getScore() {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import funkyburger.the5000.R;
+import funkyburger.the5000.event.*;
 import funkyburger.the5000.widget.DiceControl;
 
 public class MainFragment extends Fragment {
@@ -28,6 +29,9 @@ public class MainFragment extends Fragment {
 
         DiceControl control = (DiceControl)view.findViewById(R.id.diceControl);
         control.setDiceCount(6);
+        control.addEventHandler(new DiceRolledHandler());
+        control.addEventHandler(new DiceSelectedHandler());
+        control.addEventHandler(new PlayerKeptHandler());
 
         return view;
     }

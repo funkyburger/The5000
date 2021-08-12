@@ -24,7 +24,7 @@ public class CombinationMatcher {
     }
 
     public static int fetchScoreFromMatch(@NonNull List<Integer> sequence, @NonNull List<Integer> pattern, @NonNull List<Combination> combinations){
-        Optional<Combination> optional = combinations.stream().filter(c -> c.GetSequence().equals(pattern)).findFirst();
+        Optional<Combination> optional = combinations.stream().filter(c -> c.getSequence().equals(pattern)).findFirst();
         if(!optional.isPresent()){
             return 0;
         }
