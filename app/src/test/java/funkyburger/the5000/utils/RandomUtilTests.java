@@ -11,7 +11,7 @@ public class RandomUtilTests {
         for (int i = 0; i < 10000; i++) {
             int value = RandomUtil.getRandomDiceValue();
             assertTrue("Value was 0 or negative (" + value + ").",value > 0);
-            assertTrue("Value was above 6 (\" + value + \").",value <= 6);
+            assertTrue("Value was above 6 (" + value + ").",value <= 6);
         }
     }
 
