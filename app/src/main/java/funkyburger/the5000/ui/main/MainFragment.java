@@ -32,6 +32,7 @@ public class MainFragment extends Fragment {
         control.addEventHandler(new DiceRolledHandler());
         control.addEventHandler(new DiceSelectedHandler());
         control.addEventHandler(new PlayerKeptHandler());
+        control.addEventHandler(new PlayerEndsHandler());
 
         return view;
     }

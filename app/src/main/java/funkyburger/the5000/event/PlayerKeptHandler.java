@@ -1,5 +1,7 @@
 package funkyburger.the5000.event;
 
+import funkyburger.the5000.widget.DiceControl;
+
 public class PlayerKeptHandler implements EventHandler {
     @Override
     public EventType getType() {
@@ -8,6 +10,13 @@ public class PlayerKeptHandler implements EventHandler {
 
     @Override
     public void handle(Object sender) {
+        DiceControl control = (DiceControl)sender;
+        if(control.getCurrent() < 1){
+            throw new RuntimeException("Cannot keep 0 or negative score.");
+        }
 
+        control.setCanRoll(true);
+        control.setKept(control.getKept() + control.getCurrent());
+        control.setCurrent(0);
     }
 }

@@ -1,6 +1,8 @@
 package funkyburger.the5000.widget;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -22,13 +24,15 @@ public class DiceControl extends TableLayout {
     private int diceCount = 0;
     private List<Dice> dices = null;
     private int current = 0;
-    private int secured = 0;
+    private int kept = 0;
+    private boolean lost = false;
 
     private TextView currentAsText = null;
     private TextView securedAsText = null;
 
     private Button rollButton;
     private Button keepButton;
+    private Button endButton;
 
     public DiceControl(Context context) {
         super(context);
@@ -43,7 +47,16 @@ public class DiceControl extends TableLayout {
             dices.get(i).Roll();
         }
 
+        keepButton.setEnabled(false);
+
         eventHandlers.stream().filter(h -> h.getType() == EventType.DiceRolled)
+                .forEach(h -> h.handle(this));
+    }
+
+    public void Keep() {
+        dices.stream().filter(d -> d.isSelected()).forEach(d ->  d.setEnabled(false));
+
+        eventHandlers.stream().filter(h -> h.getType() == EventType.PlayerKept)
                 .forEach(h -> h.handle(this));
     }
 
@@ -51,10 +64,18 @@ public class DiceControl extends TableLayout {
         return dices.stream().filter(d -> d.isSelected()).map(d -> Integer.valueOf(d.getValue()));
     }
 
+    public Stream<Integer> getEnabledDiceValues() {
+        return dices.stream().filter(d -> d.isEnabled()).map(d -> Integer.valueOf(d.getValue()));
+    }
+
     public void startNewTurn() {
         for(int i = 0; i < dices.size(); i++){
             dices.get(i).reset();
         }
+        setCurrent(0);
+        setKept(0);
+        setLost(false);
+        setCanRoll(true);
     }
 
     public void Store(int amount){
@@ -93,12 +114,12 @@ public class DiceControl extends TableLayout {
         }
     }
 
-    public int getSecured() {
-        return secured;
+    public int getKept() {
+        return kept;
     }
 
-    public void setSecured(int secured) {
-        this.secured = secured;
+    public void setKept(int kept) {
+        this.kept = kept;
     }
 
     public void setCanRoll(boolean canRoll){
@@ -107,6 +128,28 @@ public class DiceControl extends TableLayout {
 
     public boolean getCanRoll(){
         return rollButton.isEnabled();
+    }
+
+    public boolean isLost() {
+        return lost;
+    }
+
+    public void setLost(boolean lost) {
+        if(lost){
+            endButton.setText("Lost");
+            //endButton.setBackgroundColor(android.graphics.Color.argb(255, 255, 0, 0));
+            endButton.getBackground().setColorFilter(Color.parseColor("#ff0000"), PorterDuff.Mode.SRC_ATOP);
+            //endButton.getBackground().getColorFilter()
+            setCanRoll(false);
+            setCurrent(0);
+            setKept(0);
+        }
+        else {
+            endButton.setText("End turn");
+            endButton.getBackground().setColorFilter(null);
+        }
+
+        this.lost = lost;
     }
 
     public void reportDiceWasSelected(){
@@ -150,29 +193,31 @@ public class DiceControl extends TableLayout {
             keepButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Keep();
+                }
+            });
+        }
 
+        if(endButton == null){
+            endButton = new Button(getContext(), null);
+            endButton.setText("End turn");
+
+            endButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    for(int i = 0; i < dices.size(); i++){
+                        //dices.get(i).setEnabled(false);
+                        startNewTurn();
+                    }
                 }
             });
         }
 
 
-        Button passButton = new Button(getContext(), null);
-        passButton.setText("Pass");
-
-        passButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for(int i = 0; i < dices.size(); i++){
-                    //dices.get(i).setEnabled(false);
-                    startNewTurn();
-                }
-            }
-        });
-
         row = new TableRow(getContext(), null);
         row.addView(rollButton);
         row.addView(keepButton);
-        row.addView(passButton);
+        row.addView(endButton);
         this.addView(row);
 
         if(currentAsText == null){

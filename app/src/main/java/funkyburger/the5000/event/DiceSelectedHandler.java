@@ -32,8 +32,6 @@ public class DiceSelectedHandler implements EventHandler {
         else{
             handleForControl((DiceControl)sender);
         }
-
-
     }
 
     private void handleForDice(){
@@ -41,17 +39,6 @@ public class DiceSelectedHandler implements EventHandler {
     }
 
     private void handleForControl(DiceControl control){
-        System.out.println("handleForControl");
-//        boolean truc = false;
-//        CombinationGenerator.generate().stream().forEach(c -> {
-//            if(c.getSequence().equals(control.getSelectedDiceValues().toArray())){
-//                System.out.println("match!");
-//            }
-//            else {
-//                System.out.println("no match! " + c.getSequence() + "/" + control.getSelectedDiceValues());
-//            }
-//        });
-
         Optional<Combination> combination = CombinationGenerator.generate().stream().filter(c -> StreamUtil.areEqual(c.getSequence().stream(), control.getSelectedDiceValues())).findFirst();
 
         if(combination.isPresent()) {

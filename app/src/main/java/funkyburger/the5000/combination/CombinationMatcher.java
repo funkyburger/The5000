@@ -36,6 +36,16 @@ public class CombinationMatcher {
         return 0;
     }
 
+    public static boolean canMatch(@NonNull List<Integer> sequence, @NonNull List<Combination> combinations) {
+        for (Combination c : combinations) {
+            if(hasMatch(sequence, c.getSequence())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static boolean contains(@NonNull List<Integer> sequence, int number) {
         for(int i = 0; i < sequence.size(); i++) {
             if(sequence.get(i) == number){
