@@ -18,6 +18,7 @@ import funkyburger.the5000.event.DiceSelectedHandler;
 import funkyburger.the5000.event.EventHandler;
 import funkyburger.the5000.event.EventType;
 
+// TODO clean up
 public class DiceControl extends TableLayout {
     private List<EventHandler> eventHandlers = new ArrayList<>();
 
@@ -27,6 +28,7 @@ public class DiceControl extends TableLayout {
     private int kept = 0;
     private boolean lost = false;
 
+    // TODO remove
     private TextView currentAsText = null;
     private TextView securedAsText = null;
 
