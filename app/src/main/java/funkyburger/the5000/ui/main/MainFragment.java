@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import funkyburger.the5000.R;
 import funkyburger.the5000.event.*;
 import funkyburger.the5000.widget.DiceControl;
+import funkyburger.the5000.widget.ScoreBoard;
 
 public class MainFragment extends Fragment {
 
@@ -28,11 +29,13 @@ public class MainFragment extends Fragment {
         View view =inflater.inflate(R.layout.main_fragment, container, false);
 
         DiceControl control = (DiceControl)view.findViewById(R.id.diceControl);
+        ScoreBoard scoreBoard = (ScoreBoard)view.findViewById(R.id.scoreBoard);
+
         control.setDiceCount(6);
         control.addEventHandler(new DiceRolledHandler());
         control.addEventHandler(new DiceSelectedHandler());
-        control.addEventHandler(new PlayerKeptHandler());
-        control.addEventHandler(new PlayerEndsHandler());
+        control.addEventHandler(new PlayerKeptHandler(scoreBoard));
+        control.addEventHandler(new PlayerEndsHandler(scoreBoard));
 
         return view;
     }

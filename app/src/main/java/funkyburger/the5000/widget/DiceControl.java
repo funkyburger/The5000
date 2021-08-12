@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import funkyburger.the5000.event.DiceSelectedHandler;
@@ -20,6 +21,7 @@ import funkyburger.the5000.event.EventType;
 
 // TODO clean up
 public class DiceControl extends TableLayout {
+    // TODO put list in it's own collection to simplify use
     private List<EventHandler> eventHandlers = new ArrayList<>();
 
     private int diceCount = 0;
@@ -201,16 +203,17 @@ public class DiceControl extends TableLayout {
         }
 
         if(endButton == null){
+            // TODO remove when handlers are in their own collection
+            DiceControl instance = this;
+
             endButton = new Button(getContext(), null);
             endButton.setText("End turn");
 
             endButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for(int i = 0; i < dices.size(); i++){
-                        //dices.get(i).setEnabled(false);
-                        startNewTurn();
-                    }
+                    eventHandlers.stream().filter(h -> h.getType() == EventType.PlayerEnds)
+                            .forEach(h -> h.handle(instance));
                 }
             });
         }
