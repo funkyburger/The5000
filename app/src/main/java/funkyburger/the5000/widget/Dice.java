@@ -61,6 +61,10 @@ public class Dice extends ImageView {
     public void setValue(int value) {
         this.value = value;
 
+        if(value < 1){
+            setSelected(false);
+        }
+
         render();
     }
 
@@ -76,6 +80,10 @@ public class Dice extends ImageView {
 
     @Override
     public void setSelected(boolean selected){
+        if(getValue() < 1){
+            selected = false;
+        }
+
         super.setSelected(selected);
 
         render();
