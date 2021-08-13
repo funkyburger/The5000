@@ -32,4 +32,31 @@
             android:layout_height="match_parent" />
     </funkyburger.the5000.widget.DiceControl>
 
+    <funkyburger.the5000.widget.ScoreBoard
+        android:id="@+id/scoreBoard"
+        android:layout_width="409dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceControl">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </funkyburger.the5000.widget.ScoreBoard>
+
 </android.support.constraint.ConstraintLayout>

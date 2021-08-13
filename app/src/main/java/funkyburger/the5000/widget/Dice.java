@@ -10,13 +10,19 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import funkyburger.the5000.R;
+import funkyburger.the5000.event.EventHandler;
+import funkyburger.the5000.event.EventType;
 import funkyburger.the5000.utils.RandomUtil;
 
 @SuppressLint("AppCompatCustomView")
 public class Dice extends ImageView {
+    private List<EventHandler> eventHandlers = new ArrayList<>();
+
     private int value = 0;
 
     public Dice(Context context) {
@@ -31,11 +37,6 @@ public class Dice extends ImageView {
 
     public Dice(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize();
-    }
-
-    public Dice(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         initialize();
     }
 
@@ -60,35 +61,50 @@ public class Dice extends ImageView {
     public void setValue(int value) {
         this.value = value;
 
+        if(value < 1){
+            setSelected(false);
+        }
+
         render();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
+        if(!enabled){
+            super.setSelected(false);
+        }
 
         render();
     }
 
     @Override
     public void setSelected(boolean selected){
+        if(getValue() < 1){
+            selected = false;
+        }
+
         super.setSelected(selected);
 
         render();
+
+        eventHandlers.stream().filter(h -> h.getType() == EventType.DiceSelected)
+                .forEach(h -> h.handle(this));
+    }
+
+    public void addEventHandler(EventHandler handler){
+        eventHandlers.add(handler);
     }
 
     private void initialize(){
         setValue(0);
 
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isEnabled()){
-                    return;
-                }
-
-                setSelected(!isSelected());
+        setOnClickListener(view -> {
+            if(!isEnabled()){
+                return;
             }
+
+            setSelected(!isSelected());
         });
     }
 
