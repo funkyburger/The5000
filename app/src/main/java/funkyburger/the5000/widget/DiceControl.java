@@ -47,9 +47,11 @@ public class DiceControl extends TableLayout {
     }
 
     public void Roll(){
-        for(int i = 0; i < dices.size(); i++){
-            dices.get(i).Roll();
+        if(dices.stream().allMatch(d -> !d.isEnabled())){
+            dices.stream().forEach(d -> d.setEnabled(true));
         }
+
+        dices.stream().forEach(d -> d.Roll());
 
         keepButton.setEnabled(false);
 
