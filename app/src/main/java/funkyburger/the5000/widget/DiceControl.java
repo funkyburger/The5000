@@ -20,7 +20,6 @@ import funkyburger.the5000.event.EventHandler;
 import funkyburger.the5000.event.EventHandlerCollection;
 import funkyburger.the5000.event.EventType;
 
-// TODO clean up
 public class DiceControl extends TableLayout {
     private EventHandlerCollection handlerCollection;
 
@@ -29,10 +28,6 @@ public class DiceControl extends TableLayout {
     private int current = 0;
     private int kept = 0;
     private boolean lost = false;
-
-    // TODO remove
-    private TextView currentAsText = null;
-    private TextView securedAsText = null;
 
     private Button rollButton;
     private Button keepButton;
@@ -82,10 +77,6 @@ public class DiceControl extends TableLayout {
         setKept(0);
         setLost(false);
         setCanRoll(true);
-    }
-
-    public void Store(int amount){
-
     }
 
     public int getDiceCount() {
@@ -218,18 +209,6 @@ public class DiceControl extends TableLayout {
         row.addView(rollButton);
         row.addView(keepButton);
         row.addView(endButton);
-        this.addView(row);
-
-        if(currentAsText == null){
-            currentAsText = new TextView(getContext(), null);
-        }
-        if(securedAsText == null) {
-            securedAsText = new TextView(getContext(), null);
-        }
-
-        row = new TableRow(getContext(), null);
-        row.addView(currentAsText);
-        row.addView(securedAsText);
         this.addView(row);
     }
 
