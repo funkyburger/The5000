@@ -17,12 +17,11 @@ import java.util.stream.Stream;
 
 import funkyburger.the5000.event.DiceSelectedHandler;
 import funkyburger.the5000.event.EventHandler;
+import funkyburger.the5000.event.EventHandlerCollection;
 import funkyburger.the5000.event.EventType;
 
-// TODO clean up
 public class DiceControl extends TableLayout {
-    // TODO put list in it's own collection to simplify use
-    private List<EventHandler> eventHandlers = new ArrayList<>();
+    private EventHandlerCollection handlerCollection;
 
     private int diceCount = 0;
     private List<Dice> dices = null;
@@ -30,20 +29,18 @@ public class DiceControl extends TableLayout {
     private int kept = 0;
     private boolean lost = false;
 
-    // TODO remove
-    private TextView currentAsText = null;
-    private TextView securedAsText = null;
-
     private Button rollButton;
     private Button keepButton;
     private Button endButton;
 
     public DiceControl(Context context) {
         super(context);
+        handlerCollection = new EventHandlerCollection(this);
     }
 
     public DiceControl(Context context, AttributeSet attrs) {
         super(context, attrs);
+        handlerCollection = new EventHandlerCollection(this);
     }
 
     public void Roll(){
@@ -55,15 +52,13 @@ public class DiceControl extends TableLayout {
 
         keepButton.setEnabled(false);
 
-        eventHandlers.stream().filter(h -> h.getType() == EventType.DiceRolled)
-                .forEach(h -> h.handle(this));
+        handlerCollection.trig(EventType.DiceRolled);
     }
 
     public void Keep() {
         dices.stream().filter(d -> d.isSelected()).forEach(d ->  d.setEnabled(false));
 
-        eventHandlers.stream().filter(h -> h.getType() == EventType.PlayerKept)
-                .forEach(h -> h.handle(this));
+        handlerCollection.trig(EventType.PlayerKept);
     }
 
     public Stream<Integer> getSelectedDiceValues() {
@@ -82,10 +77,6 @@ public class DiceControl extends TableLayout {
         setKept(0);
         setLost(false);
         setCanRoll(true);
-    }
-
-    public void Store(int amount){
-
     }
 
     public int getDiceCount() {
@@ -143,9 +134,7 @@ public class DiceControl extends TableLayout {
     public void setLost(boolean lost) {
         if(lost){
             endButton.setText("Lost");
-            //endButton.setBackgroundColor(android.graphics.Color.argb(255, 255, 0, 0));
             endButton.getBackground().setColorFilter(Color.parseColor("#ff0000"), PorterDuff.Mode.SRC_ATOP);
-            //endButton.getBackground().getColorFilter()
             setCanRoll(false);
             setCurrent(0);
             setKept(0);
@@ -159,12 +148,11 @@ public class DiceControl extends TableLayout {
     }
 
     public void reportDiceWasSelected(){
-        eventHandlers.stream().filter(h -> h.getType() == EventType.DiceSelected)
-                .forEach(h -> h.handle(this));
+        handlerCollection.trig(EventType.DiceSelected);
     }
 
     public void addEventHandler(EventHandler handler){
-        eventHandlers.add(handler);
+        handlerCollection.add(handler);
     }
 
     private void initialize(){
@@ -205,17 +193,13 @@ public class DiceControl extends TableLayout {
         }
 
         if(endButton == null){
-            // TODO remove when handlers are in their own collection
-            DiceControl instance = this;
-
             endButton = new Button(getContext(), null);
             endButton.setText("End turn");
 
             endButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    eventHandlers.stream().filter(h -> h.getType() == EventType.PlayerEnds)
-                            .forEach(h -> h.handle(instance));
+                    handlerCollection.trig(EventType.PlayerEnds);
                 }
             });
         }
@@ -225,18 +209,6 @@ public class DiceControl extends TableLayout {
         row.addView(rollButton);
         row.addView(keepButton);
         row.addView(endButton);
-        this.addView(row);
-
-        if(currentAsText == null){
-            currentAsText = new TextView(getContext(), null);
-        }
-        if(securedAsText == null) {
-            securedAsText = new TextView(getContext(), null);
-        }
-
-        row = new TableRow(getContext(), null);
-        row.addView(currentAsText);
-        row.addView(securedAsText);
         this.addView(row);
     }
 

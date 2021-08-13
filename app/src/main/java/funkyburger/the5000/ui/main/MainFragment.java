@@ -28,8 +28,8 @@ public class MainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.main_fragment, container, false);
 
-        DiceControl control = (DiceControl)view.findViewById(R.id.diceControl);
-        ScoreBoard scoreBoard = (ScoreBoard)view.findViewById(R.id.scoreBoard);
+        DiceControl control = view.findViewById(R.id.diceControl);
+        ScoreBoard scoreBoard = view.findViewById(R.id.scoreBoard);
 
         control.setDiceCount(6);
         control.addEventHandler(new DiceRolledHandler());
