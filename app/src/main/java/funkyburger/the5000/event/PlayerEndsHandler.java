@@ -21,16 +21,15 @@ public class PlayerEndsHandler implements EventHandler {
     public void handle(Object sender) {
         DiceControl control = (DiceControl)sender;
 
-        scoreBoard.setCurrent(0);
-
         if (control.isLost()) {
             control.startNewTurn();
         }
         else {
-            scoreBoard.setScore(scoreBoard.getScore() + control.getKept());
+            scoreBoard.addScoreToActivePlayer(control.getKept());
 
-            // TODO ended turn
             control.startNewTurn();
         }
+
+        scoreBoard.nextPlayer();
     }
 }

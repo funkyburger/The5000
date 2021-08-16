@@ -26,7 +26,5 @@ public class PlayerKeptHandler implements EventHandler {
         control.setCanRoll(true);
         control.setKept(control.getKept() + control.getCurrent());
         control.setCurrent(0);
-
-        scoreBoard.setCurrent(control.getKept());
     }
 }

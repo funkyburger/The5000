@@ -6,55 +6,46 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import funkyburger.the5000.object.CircularList;
+import funkyburger.the5000.object.Player;
+
 public class ScoreBoard extends TableLayout {
-
-    private int current = 0;
-    private int score = 0;
-
     private TextView currentAsText = null;
     private TextView scoreAsText = null;
 
+    private CircularList<PlayerDashboard> dashboards;
+
     public ScoreBoard(Context context) {
         super(context);
-        initialize();
     }
 
     public ScoreBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize();
     }
 
-    public int getCurrent() {
-        return current;
+    public void nextPlayer(){
+        dashboards.getCurrent().setActive(false);
+        dashboards.next().setActive(true);
     }
 
-    public void setCurrent(int current) {
-        this.current = current;
-
-        currentAsText.setText("Current : " + current);
+    public void addScoreToActivePlayer(int score) {
+        dashboards.getCurrent().addScore(score);
     }
 
-    public int getScore() {
-        return score;
-    }
+    public void addPlayer(Player player){
+        PlayerDashboard dashboard = new PlayerDashboard(getContext(), null);
+        dashboard.setPlayer(player);
 
-    public void setScore(int score) {
-        this.score = score;
+        addView(dashboard);
 
-        scoreAsText.setText("Score : " + score);
-    }
+        if(dashboards == null){
+            dashboards = new CircularList<>();
+            dashboard.setActive(true);
+        }
 
-    private void initialize(){
-        TableRow row = new TableRow(getContext(), null);
-
-        currentAsText = new TextView(getContext(), null);
-        scoreAsText = new TextView(getContext(), null);
-
-        row.addView(currentAsText);
-        row.addView(scoreAsText);
-        this.addView(row);
-
-        setCurrent(0);
-        setScore(0);
+        dashboards.add(dashboard);
     }
 }

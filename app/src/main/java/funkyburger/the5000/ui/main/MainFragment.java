@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import funkyburger.the5000.R;
 import funkyburger.the5000.event.*;
+import funkyburger.the5000.object.Player;
 import funkyburger.the5000.widget.DiceControl;
 import funkyburger.the5000.widget.ScoreBoard;
 
@@ -36,6 +37,10 @@ public class MainFragment extends Fragment {
         control.addEventHandler(new DiceSelectedHandler());
         control.addEventHandler(new PlayerKeptHandler(scoreBoard));
         control.addEventHandler(new PlayerEndsHandler(scoreBoard));
+
+        // TODO make name settable by users
+        scoreBoard.addPlayer(new Player("Jean michel"));
+        scoreBoard.addPlayer(new Player("Claude"));
 
         return view;
     }
