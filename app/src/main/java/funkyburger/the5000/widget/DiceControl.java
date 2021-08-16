@@ -20,9 +20,7 @@ import funkyburger.the5000.event.EventHandler;
 import funkyburger.the5000.event.EventHandlerCollection;
 import funkyburger.the5000.event.EventType;
 
-public class DiceControl extends TableLayout {
-    private EventHandlerCollection handlerCollection;
-
+public class DiceControl extends EventWireableTableLayout {
     private int diceCount = 0;
     private List<Dice> dices = null;
     private int current = 0;
@@ -33,12 +31,10 @@ public class DiceControl extends TableLayout {
 
     public DiceControl(Context context) {
         super(context);
-        handlerCollection = new EventHandlerCollection(this);
     }
 
     public DiceControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        handlerCollection = new EventHandlerCollection(this);
     }
 
     public void Roll(){
@@ -50,17 +46,20 @@ public class DiceControl extends TableLayout {
 
         buttonRow.setCanKeep(false);
 
-        handlerCollection.trig(EventType.DiceRolled);
+        //handlerCollection.trig(EventType.DiceRolled);
+        trigger(EventType.DiceRolled);
     }
 
     public void Keep() {
         dices.stream().filter(d -> d.isSelected()).forEach(d ->  d.setEnabled(false));
 
-        handlerCollection.trig(EventType.PlayerKept);
+        //handlerCollection.trig(EventType.PlayerKept);
+        trigger(EventType.PlayerKept);
     }
 
     public void endTurn() {
-        handlerCollection.trig(EventType.PlayerEnds);
+        //handlerCollection.trig(EventType.PlayerEnds);
+        trigger(EventType.PlayerEnds);
     }
 
     public Stream<Integer> getSelectedDiceValues() {
@@ -129,11 +128,8 @@ public class DiceControl extends TableLayout {
 
     // TODO could be optimised
     public void reportDiceWasSelected(){
-        handlerCollection.trig(EventType.DiceSelected);
-    }
-
-    public void addEventHandler(EventHandler handler){
-        handlerCollection.add(handler);
+        //handlerCollection.trig(EventType.DiceSelected);
+        trigger(EventType.DiceSelected);
     }
 
     private void initialize(){
