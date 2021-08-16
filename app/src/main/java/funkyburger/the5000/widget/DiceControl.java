@@ -46,19 +46,16 @@ public class DiceControl extends EventWireableTableLayout {
 
         buttonRow.setCanKeep(false);
 
-        //handlerCollection.trig(EventType.DiceRolled);
         trigger(EventType.DiceRolled);
     }
 
     public void Keep() {
         dices.stream().filter(d -> d.isSelected()).forEach(d ->  d.setEnabled(false));
 
-        //handlerCollection.trig(EventType.PlayerKept);
         trigger(EventType.PlayerKept);
     }
 
     public void endTurn() {
-        //handlerCollection.trig(EventType.PlayerEnds);
         trigger(EventType.PlayerEnds);
     }
 
@@ -128,7 +125,6 @@ public class DiceControl extends EventWireableTableLayout {
 
     // TODO could be optimised
     public void reportDiceWasSelected(){
-        //handlerCollection.trig(EventType.DiceSelected);
         trigger(EventType.DiceSelected);
     }
 

@@ -26,6 +26,6 @@ public class EventWireableTableLayout extends TableLayout {
     }
 
     protected void trigger(EventType eventType) {
-        handlerCollection.trig(eventType);
+        handlerCollection.trigger(eventType);
     }
 }
