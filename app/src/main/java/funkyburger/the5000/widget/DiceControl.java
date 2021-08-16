@@ -22,27 +22,25 @@ import funkyburger.the5000.event.EventType;
 
 public class DiceControl extends EventWireableTableLayout {
     private int diceCount = 0;
-    private List<Dice> dices = null;
     private int current = 0;
     private int kept = 0;
     private boolean lost = false;
 
+    private DiceArray diceArray;
     private DiceButtonRow buttonRow;
 
     public DiceControl(Context context) {
         super(context);
+        initialize();
     }
 
     public DiceControl(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initialize();
     }
 
     public void Roll(){
-        if(dices.stream().allMatch(d -> !d.isEnabled())){
-            dices.stream().forEach(d -> d.setEnabled(true));
-        }
-
-        dices.stream().forEach(d -> d.Roll());
+        diceArray.Roll();
 
         buttonRow.setCanKeep(false);
 
@@ -50,7 +48,7 @@ public class DiceControl extends EventWireableTableLayout {
     }
 
     public void Keep() {
-        dices.stream().filter(d -> d.isSelected()).forEach(d ->  d.setEnabled(false));
+        diceArray.disableSelected();
 
         trigger(EventType.PlayerKept);
     }
@@ -60,37 +58,19 @@ public class DiceControl extends EventWireableTableLayout {
     }
 
     public Stream<Integer> getSelectedDiceValues() {
-        return dices.stream().filter(d -> d.isSelected()).map(d -> Integer.valueOf(d.getValue()));
+        return diceArray.getSelectedDiceValues();
     }
 
     public Stream<Integer> getEnabledDiceValues() {
-        return dices.stream().filter(d -> d.isEnabled()).map(d -> Integer.valueOf(d.getValue()));
+        return diceArray.getEnabledDiceValues();
     }
 
     public void startNewTurn() {
-        for(int i = 0; i < dices.size(); i++){
-            dices.get(i).reset();
-        }
+        diceArray.reset();
         setCurrent(0);
         setKept(0);
         setLost(false);
         buttonRow.setCanRoll(true);
-    }
-
-    public int getDiceCount() {
-        return diceCount;
-    }
-
-    public void setDiceCount(int diceCount) {
-        this.diceCount = diceCount;
-
-        if(diceCount < 1){
-            throw new RuntimeException("Dice count should be a positive integer.");
-        }
-
-        dices = GenerateDices(diceCount);
-
-        initialize();
     }
 
     public int getCurrent() {
@@ -123,34 +103,10 @@ public class DiceControl extends EventWireableTableLayout {
         this.lost = lost;
     }
 
-    // TODO could be optimised
-    public void reportDiceWasSelected(){
-        trigger(EventType.DiceSelected);
-    }
-
     private void initialize(){
-        TableRow row = new TableRow(getContext(), null);
-
-        for(int i = 0; i < dices.size(); i++){
-            row.addView(dices.get(i));
-
-            if(row.getChildCount() == 3 || i == dices.size() - 1){
-                this.addView(row);
-                row = new TableRow(getContext(), null);
-            }
-        }
-
+        diceArray = new DiceArray(getContext(), this, 6, 3);
         buttonRow = new DiceButtonRow(getContext(), this);
+        addView(diceArray);
         addView(buttonRow);
-    }
-
-    private List<Dice> GenerateDices(int count) {
-        List<Dice> diceList = new ArrayList<Dice>();
-        for (int i = 0; i < diceCount; i++) {
-            Dice dice = new Dice(getContext(), null);
-            dice.addEventHandler(new DiceSelectedHandler(this));
-            diceList.add(dice);
-        }
-        return diceList;
     }
 }
