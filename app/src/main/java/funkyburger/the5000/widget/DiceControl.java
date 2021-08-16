@@ -29,9 +29,7 @@ public class DiceControl extends TableLayout {
     private int kept = 0;
     private boolean lost = false;
 
-    private Button rollButton;
-    private Button keepButton;
-    private Button endButton;
+    private DiceButtonRow buttonRow;
 
     public DiceControl(Context context) {
         super(context);
@@ -50,7 +48,7 @@ public class DiceControl extends TableLayout {
 
         dices.stream().forEach(d -> d.Roll());
 
-        keepButton.setEnabled(false);
+        buttonRow.setCanKeep(false);
 
         handlerCollection.trig(EventType.DiceRolled);
     }
@@ -59,6 +57,10 @@ public class DiceControl extends TableLayout {
         dices.stream().filter(d -> d.isSelected()).forEach(d ->  d.setEnabled(false));
 
         handlerCollection.trig(EventType.PlayerKept);
+    }
+
+    public void endTurn() {
+        handlerCollection.trig(EventType.PlayerEnds);
     }
 
     public Stream<Integer> getSelectedDiceValues() {
@@ -76,7 +78,7 @@ public class DiceControl extends TableLayout {
         setCurrent(0);
         setKept(0);
         setLost(false);
-        setCanRoll(true);
+        buttonRow.setCanRoll(true);
     }
 
     public int getDiceCount() {
@@ -101,14 +103,7 @@ public class DiceControl extends TableLayout {
 
     public void setCurrent(int current) {
         this.current = current;
-        if(current > 0) {
-            keepButton.setText("Keep (" + current + ")");
-            keepButton.setEnabled(true);
-        }
-        else {
-            keepButton.setText("Keep");
-            keepButton.setEnabled(false);
-        }
+        buttonRow.setCurrent(current);
     }
 
     public int getKept() {
@@ -120,11 +115,7 @@ public class DiceControl extends TableLayout {
     }
 
     public void setCanRoll(boolean canRoll){
-        rollButton.setEnabled(canRoll);
-    }
-
-    public boolean getCanRoll(){
-        return rollButton.isEnabled();
+        buttonRow.setCanRoll(canRoll);
     }
 
     public boolean isLost() {
@@ -132,21 +123,11 @@ public class DiceControl extends TableLayout {
     }
 
     public void setLost(boolean lost) {
-        if(lost){
-            endButton.setText("Lost");
-            endButton.getBackground().setColorFilter(Color.parseColor("#ff0000"), PorterDuff.Mode.SRC_ATOP);
-            setCanRoll(false);
-            setCurrent(0);
-            setKept(0);
-        }
-        else {
-            endButton.setText("End turn");
-            endButton.getBackground().setColorFilter(null);
-        }
-
+        buttonRow.setLost(lost);
         this.lost = lost;
     }
 
+    // TODO could be optimised
     public void reportDiceWasSelected(){
         handlerCollection.trig(EventType.DiceSelected);
     }
@@ -167,49 +148,8 @@ public class DiceControl extends TableLayout {
             }
         }
 
-        if(rollButton == null){
-            rollButton = new Button(getContext(), null);
-            rollButton.setText("Roll");
-
-            rollButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Roll();
-                }
-            });
-        }
-
-        if(keepButton == null) {
-            keepButton = new Button(getContext(), null);
-            keepButton.setText("Keep");
-            keepButton.setEnabled(false);
-
-            keepButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Keep();
-                }
-            });
-        }
-
-        if(endButton == null){
-            endButton = new Button(getContext(), null);
-            endButton.setText("End turn");
-
-            endButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    handlerCollection.trig(EventType.PlayerEnds);
-                }
-            });
-        }
-
-
-        row = new TableRow(getContext(), null);
-        row.addView(rollButton);
-        row.addView(keepButton);
-        row.addView(endButton);
-        this.addView(row);
+        buttonRow = new DiceButtonRow(getContext(), this);
+        addView(buttonRow);
     }
 
     private List<Dice> GenerateDices(int count) {
