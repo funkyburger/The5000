@@ -17,6 +17,8 @@ public class DiceButtonRow extends TableRow {
     private Button keepButton;
     private Button endButton;
 
+    private boolean lost = false;
+
     public DiceButtonRow(Context context, DiceControl control) {
         super(context);
         this.control = control;
@@ -40,6 +42,17 @@ public class DiceButtonRow extends TableRow {
         }
     }
 
+    public void setKept(int kept) {
+        if(kept > 0) {
+            endButton.setText("End turn (" + kept + ")");
+            endButton.setEnabled(true);
+        }
+        else {
+            endButton.setText("End turn");
+            endButton.setEnabled(false);
+        }
+    }
+
     public void setCanKeep(boolean canKeep) {
         keepButton.setEnabled(canKeep);
     }
@@ -50,15 +63,20 @@ public class DiceButtonRow extends TableRow {
 
     public void setLost(boolean lost){
         if(lost){
+            this.lost = true;
             endButton.setText("Lost");
             endButton.getBackground().setColorFilter(Color.parseColor("#ff0000"), PorterDuff.Mode.SRC_ATOP);
+            endButton.setEnabled(true);
             setCanRoll(false);
             setCanKeep(false);
             setCurrent(0);
         }
         else {
-            endButton.setText("End turn");
-            endButton.getBackground().setColorFilter(null);
+            if(this.lost) {
+                endButton.setText("End turn");
+                endButton.getBackground().setColorFilter(null);
+                this.lost = false;
+            }
         }
     }
 

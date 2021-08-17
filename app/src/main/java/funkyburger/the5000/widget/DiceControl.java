@@ -88,6 +88,7 @@ public class DiceControl extends EventWireableTableLayout {
 
     public void setKept(int kept) {
         this.kept = kept;
+        buttonRow.setKept(kept);
     }
 
     public void setCanRoll(boolean canRoll){
