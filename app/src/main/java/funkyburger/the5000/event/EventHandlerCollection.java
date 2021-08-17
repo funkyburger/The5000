@@ -16,7 +16,7 @@ public class EventHandlerCollection {
         eventHandlers.add(handler);
     }
 
-    public void trig(EventType eventType){
+    public void trigger(EventType eventType){
         eventHandlers.stream().filter(h -> h.getType() == eventType)
                 .forEach(h -> h.handle(sender));
     }

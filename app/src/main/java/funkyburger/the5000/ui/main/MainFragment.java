@@ -32,9 +32,7 @@ public class MainFragment extends Fragment {
         DiceControl control = view.findViewById(R.id.diceControl);
         ScoreBoard scoreBoard = view.findViewById(R.id.scoreBoard);
 
-        control.setDiceCount(6);
         control.addEventHandler(new DiceRolledHandler());
-        control.addEventHandler(new DiceSelectedHandler());
         control.addEventHandler(new PlayerKeptHandler(scoreBoard));
         control.addEventHandler(new PlayerEndsHandler(scoreBoard));
 
