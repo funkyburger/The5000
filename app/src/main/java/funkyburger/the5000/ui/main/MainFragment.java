@@ -27,18 +27,18 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.main_fragment, container, false);
+        View view = inflater.inflate(R.layout.main_fragment, container, false);
 
-        DiceControl control = view.findViewById(R.id.diceControl);
-        ScoreBoard scoreBoard = view.findViewById(R.id.scoreBoard);
-
-        control.addEventHandler(new DiceRolledHandler());
-        control.addEventHandler(new PlayerKeptHandler(scoreBoard));
-        control.addEventHandler(new PlayerEndsHandler(scoreBoard));
-
-        // TODO make name settable by users
-        scoreBoard.addPlayer(new Player("Jean michel"));
-        scoreBoard.addPlayer(new Player("Claude"));
+//        DiceControl control = view.findViewById(R.id.diceControl);
+//        ScoreBoard scoreBoard = view.findViewById(R.id.scoreBoard);
+//
+//        control.addEventHandler(new DiceRolledHandler());
+//        control.addEventHandler(new PlayerKeptHandler(scoreBoard));
+//        control.addEventHandler(new PlayerEndsHandler(scoreBoard));
+//
+//        // TODO make name settable by users
+//        scoreBoard.addPlayer(new Player("Jean michel"));
+//        scoreBoard.addPlayer(new Player("Claude"));
 
         return view;
     }
