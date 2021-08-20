@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import funkyburger.the5000.event.PlayerAddedHandler;
+import funkyburger.the5000.event.PlayerRemovedHandler;
 import funkyburger.the5000.object.Player;
 
-public class PlayerSelectItemStack extends LinearLayout {
+public class PlayerSelectItemStack extends EventWireableLinearLayout {
     private ArrayList<PlayerSelectItem> items = new ArrayList<>();
 
     public PlayerSelectItemStack(Context context) {
@@ -29,26 +31,44 @@ public class PlayerSelectItemStack extends LinearLayout {
         initialize();
     }
 
-    public void nextPlayer() {
+    public void addPlayer() {
+        PlayerSelectItem item = new PlayerSelectItem(getContext());
+        item.setPlayer(new Player("Player" + (items.size() + 1)));
+        item.addEventHandler(new PlayerAddedHandler(this));
+        item.addEventHandler(new PlayerRemovedHandler(this));
 
+        items.add(item);
+        refresh();
     }
 
-    @Deprecated
-    public void addPlayer(Player player) {
-        PlayerSelectItem item = new PlayerSelectItem(getContext());
-        item.setPlayer(player);
+    public void removePlayer() {
+        if(items.isEmpty()) {
+           throw new RuntimeException("No player to remove.");
+        }
 
-        PlayerSelectItem next = new PlayerSelectItem(getContext());
-        addView(item);
+        items.remove(items.size() - 1);
+        refresh();
+    }
+
+    private void refresh() {
+        items.forEach(i -> {
+            i.setAddActivated(false);
+            i.setRemoveActivated(false);
+        });
+
+        if(items.size() > 0) {
+            PlayerSelectItem lastItem = items.get(items.size() - 1);
+            lastItem.setAddActivated(true);
+            if(items.size() > 1) {
+                lastItem.setRemoveActivated(true);
+            }
+        }
+
+        removeAllViews();
+        items.forEach(i -> addView(i));
     }
 
     private void initialize() {
         setOrientation(LinearLayout.VERTICAL);
-        //setPaddingRelative();
-
-//        TextView playerName = new TextView(getContext());
-//playerName.setText("andouille");
-//
-//        addView(playerName);
     }
 }

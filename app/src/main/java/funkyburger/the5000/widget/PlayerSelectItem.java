@@ -8,13 +8,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import funkyburger.the5000.R;
+import funkyburger.the5000.event.EventType;
 import funkyburger.the5000.object.Player;
 
-public class PlayerSelectItem extends LinearLayout {
+public class PlayerSelectItem extends EventWireableLinearLayout {
     private Player player = null;
     private ImageView addIcon;
     private ImageView removeIcon;
+
+    private boolean canAdd;
+    private boolean canRemove;
 
     private TextView playerName;
 
@@ -48,6 +54,16 @@ public class PlayerSelectItem extends LinearLayout {
         refresh();
     }
 
+    public void setAddActivated(boolean activated) {
+        this.canAdd = activated;
+        refresh();
+    }
+
+    public void setRemoveActivated(boolean activated) {
+        this.canRemove = activated;
+        refresh();
+    }
+
     private void refresh() {
         removeAllViews();
 
@@ -56,16 +72,18 @@ public class PlayerSelectItem extends LinearLayout {
 
         if(isEnabled()) {
             playerName.setTextColor(getResources().getColor(R.color.black, getContext().getTheme()));
-            if() {
-                addView(removeIcon);
-            }
-
         } else {
             playerName.setTextColor(getResources().getColor(R.color.light_grey, getContext().getTheme()));
+
+        }
+
+        if(canAdd) {
             addView(addIcon);
         }
 
-
+        if(canRemove) {
+            addView(removeIcon);
+        }
     }
 
     private void initialize() {
@@ -77,9 +95,11 @@ public class PlayerSelectItem extends LinearLayout {
 
         addIcon = new ImageView(getContext());
         addIcon.setImageResource(android.R.drawable.ic_input_add);
+        addIcon.setOnClickListener(i -> { trigger(EventType.PlayerAdded); });
 
         removeIcon = new ImageView(getContext());
         removeIcon.setImageResource(android.R.drawable.ic_delete);
+        removeIcon.setOnClickListener(i -> { trigger(EventType.PlayerRemoved); });
 
         addView(playerName);
     }
