@@ -1,0 +1,86 @@
+package funkyburger.the5000.widget;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.view.Gravity;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import funkyburger.the5000.R;
+import funkyburger.the5000.object.Player;
+
+public class PlayerSelectItem extends LinearLayout {
+    private Player player = null;
+    private ImageView addIcon;
+    private ImageView removeIcon;
+
+    private TextView playerName;
+
+    public PlayerSelectItem(Context context) {
+        super(context);
+        initialize();
+    }
+
+    public PlayerSelectItem(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initialize();
+    }
+
+    public PlayerSelectItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initialize();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        refresh();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        refresh();
+    }
+
+    private void refresh() {
+        removeAllViews();
+
+        playerName.setText(player.getName());
+        addView(playerName);
+
+        if(isEnabled()) {
+            playerName.setTextColor(getResources().getColor(R.color.black, getContext().getTheme()));
+            if() {
+                addView(removeIcon);
+            }
+
+        } else {
+            playerName.setTextColor(getResources().getColor(R.color.light_grey, getContext().getTheme()));
+            addView(addIcon);
+        }
+
+
+    }
+
+    private void initialize() {
+        setOrientation(LinearLayout.HORIZONTAL);
+        setMinimumHeight(200);
+        setGravity(Gravity.CENTER_VERTICAL);
+
+        playerName = new TextView(getContext());
+
+        addIcon = new ImageView(getContext());
+        addIcon.setImageResource(android.R.drawable.ic_input_add);
+
+        removeIcon = new ImageView(getContext());
+        removeIcon.setImageResource(android.R.drawable.ic_delete);
+
+        addView(playerName);
+    }
+}

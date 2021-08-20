@@ -19,6 +19,7 @@ import funkyburger.the5000.object.Player;
 import funkyburger.the5000.ui.main.MainFragment;
 import funkyburger.the5000.ui.main.MainViewModel;
 import funkyburger.the5000.widget.DiceControl;
+import funkyburger.the5000.widget.PlayerSelectItemStack;
 import funkyburger.the5000.widget.ScoreBoard;
 
 public class PlayerSelectFragment extends EventWireableFragment {
@@ -29,6 +30,9 @@ public class PlayerSelectFragment extends EventWireableFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.player_select_fragment, container, false);
+        PlayerSelectItemStack playerStack = view.findViewById(R.id.playerStack);
+        playerStack.addPlayer(new Player("Player1"));
+        playerStack.addPlayer(new Player("Player2"));
 
 //        Button testButton = view.findViewById(R.id.testButton);
 //        testButton.setOnClickListener(b -> { mainActivity.switchFragment(); });
