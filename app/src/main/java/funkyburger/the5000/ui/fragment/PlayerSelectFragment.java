@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.stream.Stream;
+
 import funkyburger.the5000.MainActivity;
 import funkyburger.the5000.R;
 import funkyburger.the5000.event.DiceRolledHandler;
@@ -24,19 +26,28 @@ import funkyburger.the5000.widget.ScoreBoard;
 
 public class PlayerSelectFragment extends EventWireableFragment {
     private MainActivity mainActivity;
+    private PlayerSelectItemStack stack;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.player_select_fragment, container, false);
-        PlayerSelectItemStack playerStack = view.findViewById(R.id.playerStack);
-        playerStack.addPlayer();
+        stack = view.findViewById(R.id.playerStack);
+        stack.addPlayer();
 
         return view;
     }
 
     public void setMainActivity(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+    }
+
+    public Stream<Player> getPlayers() {
+        return stack.getPlayers();
+    }
+
+    public boolean hasChangedSinceLastFetch() {
+        return stack.hasChangedSinceLastFetch();
     }
 }

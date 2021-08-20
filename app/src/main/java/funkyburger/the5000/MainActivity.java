@@ -13,6 +13,8 @@ import funkyburger.the5000.widget.MainToolBar;
 public class MainActivity extends AppCompatActivity {
 
     private boolean gameOngoing = false;
+    private PlayerSelectFragment playerSelectFragment;
+    private PlayFragment playFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +26,12 @@ public class MainActivity extends AppCompatActivity {
         mainToolBar.addEventHandler(new PlayPressedHandler(this));
         mainToolBar.addEventHandler(new PausePressedHandler(this));
 
-//        setActionBar(mainToolBar);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.mainToolBar);
-        //toolbar
-        //setActionBar(new MainToolBar(getBaseContext()));
-
-//        setContentView(R.layout.main_activity);
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.mainToolBar);
-//        setSupportActionBar(myToolbar);
+        playerSelectFragment = new PlayerSelectFragment();
+        playFragment = new PlayFragment();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new PlayerSelectFragment())
+                    .replace(R.id.container, playerSelectFragment)
                     .commitNow();
         }
     }
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new PlayFragment())
+                .replace(R.id.container, playFragment)
                 .commitNow();
 
         gameOngoing = true;
@@ -58,9 +54,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new PlayerSelectFragment())
+                .replace(R.id.container, playerSelectFragment)
                 .commitNow();
 
         gameOngoing = false;
+    }
+
+    public PlayerSelectFragment getPlayerSelectFragment() {
+        return playerSelectFragment;
+    }
+
+    public PlayFragment getPlayFragment() {
+        return playFragment;
     }
 }

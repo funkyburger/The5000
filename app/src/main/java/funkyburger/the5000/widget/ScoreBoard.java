@@ -16,7 +16,7 @@ public class ScoreBoard extends TableLayout {
     private TextView currentAsText = null;
     private TextView scoreAsText = null;
 
-    private CircularList<PlayerDashboard> dashboards;
+    private CircularList<PlayerDashboard> dashboards = new CircularList<>();
 
     public ScoreBoard(Context context) {
         super(context);
@@ -41,11 +41,17 @@ public class ScoreBoard extends TableLayout {
 
         addView(dashboard);
 
-        if(dashboards == null){
-            dashboards = new CircularList<>();
+        if(dashboards.isEmpty()){
             dashboard.setActive(true);
         }
 
         dashboards.add(dashboard);
+    }
+
+    public void setPlayers(List<Player> players) {
+        removeAllViews();
+        dashboards.clear();
+
+        players.forEach(p -> addPlayer(p));
     }
 }

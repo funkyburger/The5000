@@ -6,13 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.PlayFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <funkyburger.the5000.widget.DiceControl
+        android:id="@+id/diceControl2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="Play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <funkyburger.the5000.widget.ScoreBoard
+        android:id="@+id/scoreBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diceControl2"/>
 </android.support.constraint.ConstraintLayout>

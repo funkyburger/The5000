@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import funkyburger.the5000.event.PlayerAddedHandler;
 import funkyburger.the5000.event.PlayerRemovedHandler;
@@ -15,6 +16,7 @@ import funkyburger.the5000.object.Player;
 
 public class PlayerSelectItemStack extends EventWireableLinearLayout {
     private ArrayList<PlayerSelectItem> items = new ArrayList<>();
+    private boolean changedSinceLastFetch;
 
     public PlayerSelectItemStack(Context context) {
         super(context);
@@ -38,6 +40,7 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
         item.addEventHandler(new PlayerRemovedHandler(this));
 
         items.add(item);
+        changedSinceLastFetch = true;
         refresh();
     }
 
@@ -47,7 +50,17 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
         }
 
         items.remove(items.size() - 1);
+        changedSinceLastFetch = true;
         refresh();
+    }
+
+    public Stream<Player> getPlayers() {
+        changedSinceLastFetch = false;
+        return items.stream().map(i -> i.getPlayer());
+    }
+
+    public boolean hasChangedSinceLastFetch() {
+        return changedSinceLastFetch;
     }
 
     private void refresh() {
@@ -70,5 +83,6 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
 
     private void initialize() {
         setOrientation(LinearLayout.VERTICAL);
+        changedSinceLastFetch = false;
     }
 }
