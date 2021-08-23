@@ -1,28 +1,18 @@
 package funkyburger.the5000.ui.fragment;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.stream.Stream;
 
 import funkyburger.the5000.MainActivity;
 import funkyburger.the5000.R;
-import funkyburger.the5000.event.DiceRolledHandler;
-import funkyburger.the5000.event.PlayerEndsHandler;
-import funkyburger.the5000.event.PlayerKeptHandler;
 import funkyburger.the5000.object.Player;
-import funkyburger.the5000.ui.main.MainFragment;
-import funkyburger.the5000.ui.main.MainViewModel;
-import funkyburger.the5000.widget.DiceControl;
 import funkyburger.the5000.widget.PlayerSelectItemStack;
-import funkyburger.the5000.widget.ScoreBoard;
 
 public class PlayerSelectFragment extends EventWireableFragment {
     private MainActivity mainActivity;
