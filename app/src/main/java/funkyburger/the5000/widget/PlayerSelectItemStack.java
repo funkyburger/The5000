@@ -77,7 +77,7 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
                 lastItem.setAddActivated(true);
             }
 
-            if(items.size() > 1) {
+            if(items.size() > 2) {
                 lastItem.setRemoveActivated(true);
             }
         }
@@ -88,6 +88,8 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
 
     private void initialize() {
         setOrientation(LinearLayout.VERTICAL);
+        addPlayer();
+        addPlayer();
         changedSinceLastFetch = false;
     }
 }

@@ -24,7 +24,6 @@ public class PlayerSelectFragment extends EventWireableFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.player_select_fragment, container, false);
         stack = view.findViewById(R.id.playerStack);
-        stack.addPlayer();
 
         return view;
     }
