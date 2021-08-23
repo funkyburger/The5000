@@ -8,7 +8,7 @@
     tools:context=".ui.main.MainFragment">
 
     <funkyburger.the5000.widget.DiceControl
-        android:id="@+id/diceControl"
+        android:id="@+id/diceControl3"
         android:layout_width="409dp"
         android:layout_height="354dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diceControl">
+        app:layout_constraintTop_toBottomOf="@+id/diceControl3">
     </funkyburger.the5000.widget.ScoreBoard>
 
 </android.support.constraint.ConstraintLayout>

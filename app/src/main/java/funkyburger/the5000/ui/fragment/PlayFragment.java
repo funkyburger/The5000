@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +13,9 @@ import java.util.stream.Stream;
 
 import funkyburger.the5000.MainActivity;
 import funkyburger.the5000.R;
-import funkyburger.the5000.object.Player;
-import funkyburger.the5000.widget.ScoreBoard;
+import funkyburger.the5000.event.*;
+import funkyburger.the5000.object.*;
+import funkyburger.the5000.widget.*;
 
 public class PlayFragment extends EventWireableFragment {
 
@@ -23,6 +23,7 @@ public class PlayFragment extends EventWireableFragment {
     private List<Player> players;
 
     private ScoreBoard scoreBoard;
+    private DiceControl control;
 
     @Nullable
     @Override
@@ -31,6 +32,11 @@ public class PlayFragment extends EventWireableFragment {
         View view = inflater.inflate(R.layout.play_fragment, container, false);
 
         scoreBoard = view.findViewById(R.id.scoreBoard);
+        control = view.findViewById(R.id.diceControl);
+
+        control.addEventHandler(new DiceRolledHandler());
+        control.addEventHandler(new PlayerKeptHandler(scoreBoard));
+        control.addEventHandler(new PlayerEndsHandler(scoreBoard));
 
         return view;
     }
