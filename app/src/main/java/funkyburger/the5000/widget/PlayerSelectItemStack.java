@@ -15,6 +15,8 @@ import funkyburger.the5000.event.PlayerRemovedHandler;
 import funkyburger.the5000.object.Player;
 
 public class PlayerSelectItemStack extends EventWireableLinearLayout {
+    private static final int MAX_PLAYER_COUNT = 8;
+
     private ArrayList<PlayerSelectItem> items = new ArrayList<>();
     private boolean changedSinceLastFetch;
 
@@ -71,7 +73,10 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
 
         if(items.size() > 0) {
             PlayerSelectItem lastItem = items.get(items.size() - 1);
-            lastItem.setAddActivated(true);
+            if(items.size() < MAX_PLAYER_COUNT){
+                lastItem.setAddActivated(true);
+            }
+
             if(items.size() > 1) {
                 lastItem.setRemoveActivated(true);
             }
