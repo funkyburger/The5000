@@ -50,6 +50,7 @@ public class PlayerDashboard extends TableRow {
         setMinimumHeight(100);
 
         nameTag = new TextView(getContext(), null);
+        nameTag.setPadding(20, 10, 20, 10);
         scoreTag = new TextView(getContext(), null);
 
         addView(nameTag);
