@@ -47,6 +47,8 @@ public class PlayerDashboard extends TableRow {
     }
 
     private void initialize(){
+        setMinimumHeight(100);
+
         nameTag = new TextView(getContext(), null);
         scoreTag = new TextView(getContext(), null);
 
