@@ -50,8 +50,8 @@ public class PlayFragment extends EventWireableFragment {
     }
 
     public void setPlayers(Stream<Player> players) {
-        List<Player> ps = players.collect(Collectors.toList());
-        this.players = ps;
+        //List<Player> ps = players.collect(Collectors.toList());
+        this.players = players.collect(Collectors.toList());
         scoreBoard.setPlayers(this.players);
     }
 }

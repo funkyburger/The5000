@@ -26,8 +26,8 @@ public class PlayPressedHandler implements EventHandler {
         mainActivity.startOrResume();
 
         if(mainActivity.getPlayerSelectFragment().hasChangedSinceLastFetch()) {
-            Stream<Player> stream = mainActivity.getPlayerSelectFragment().getPlayers();
-            stream.forEach(p -> System.out.println(p.getName()));
+//            Stream<Player> stream = mainActivity.getPlayerSelectFragment().getPlayers();
+//            stream.forEach(p -> System.out.println(p.getName()));
 
             mainActivity.getPlayFragment().setPlayers(
                 mainActivity.getPlayerSelectFragment().getPlayers()

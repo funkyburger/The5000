@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,14 +16,14 @@ import funkyburger.the5000.event.EventType;
 import funkyburger.the5000.object.Player;
 
 public class PlayerSelectItem extends EventWireableLinearLayout {
-    private Player player = null;
+//    private Player player = null;
     private ImageView addIcon;
     private ImageView removeIcon;
 
     private boolean canAdd;
     private boolean canRemove;
 
-    private TextView playerName;
+    private android.widget.EditText playerName;
 
     public PlayerSelectItem(Context context) {
         super(context);
@@ -40,11 +41,12 @@ public class PlayerSelectItem extends EventWireableLinearLayout {
     }
 
     public Player getPlayer() {
-        return player;
+        return new Player(playerName.getText().toString());
     }
 
     public void setPlayer(Player player) {
-        this.player = player;
+        //this.player = player;
+        playerName.setText(player.getName());
         refresh();
     }
 
@@ -67,14 +69,12 @@ public class PlayerSelectItem extends EventWireableLinearLayout {
     private void refresh() {
         removeAllViews();
 
-        playerName.setText(player.getName());
         addView(playerName);
 
         if(isEnabled()) {
             playerName.setTextColor(getResources().getColor(R.color.black, getContext().getTheme()));
         } else {
             playerName.setTextColor(getResources().getColor(R.color.light_grey, getContext().getTheme()));
-
         }
 
         if(canAdd) {
@@ -91,7 +91,8 @@ public class PlayerSelectItem extends EventWireableLinearLayout {
         setMinimumHeight(200);
         setGravity(Gravity.CENTER_VERTICAL);
 
-        playerName = new TextView(getContext());
+        playerName = new EditText(getContext());
+        //playerName.setOnKeyListener();
 
         addIcon = new ImageView(getContext());
         addIcon.setImageResource(android.R.drawable.ic_input_add);
