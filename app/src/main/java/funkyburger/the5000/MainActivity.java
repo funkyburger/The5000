@@ -6,7 +6,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 //import android.widget.Toolbar;
 
+import java.util.*;
+
 import funkyburger.the5000.event.*;
+import funkyburger.the5000.object.Player;
 import funkyburger.the5000.ui.fragment.*;
 import funkyburger.the5000.widget.MainToolBar;
 
@@ -15,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean gameOngoing = false;
     private PlayerSelectFragment playerSelectFragment;
     private PlayFragment playFragment;
+
+    private List<Player> players = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.container, playFragment)
                 .commitNow();
 
+        playFragment.setPlayers(getPlayers().stream());
         gameOngoing = true;
     }
 
@@ -52,9 +58,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        setPlayers(playFragment.getPlayers());
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, playerSelectFragment)
                 .commitNow();
+
+        playerSelectFragment.setPlayers(getPlayers().stream());
 
         gameOngoing = false;
     }
@@ -65,5 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
     public PlayFragment getPlayFragment() {
         return playFragment;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

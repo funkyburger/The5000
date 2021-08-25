@@ -36,6 +36,11 @@ public class PlayerSelectFragment extends EventWireableFragment {
         return stack.getPlayers();
     }
 
+    public void setPlayers(Stream<Player> players) {
+        stack.setPlayers(players);
+    }
+
+    @Deprecated
     public boolean hasChangedSinceLastFetch() {
         return stack.hasChangedSinceLastFetch();
     }

@@ -36,7 +36,11 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
     }
 
     public void addPlayer() {
-        PlayerSelectItem item = new PlayerSelectItem(getContext(), new Player("Player" + (items.size() + 1)));
+        addPlayer(new Player("Player" + (items.size() + 1)));
+    }
+
+    public void addPlayer(Player player) {
+        PlayerSelectItem item = new PlayerSelectItem(getContext(), player);
         item.addEventHandler(new PlayerAddedHandler(this));
         item.addEventHandler(new PlayerRemovedHandler(this));
 
@@ -60,6 +64,13 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
         return items.stream().map(i -> i.getPlayer());
     }
 
+    public void setPlayers(Stream<Player> players) {
+        items.clear();
+        players.forEach(p -> addPlayer(p));
+        refresh();
+    }
+
+    @Deprecated
     public boolean hasChangedSinceLastFetch() {
         return changedSinceLastFetch;
     }
@@ -89,6 +100,6 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
         setOrientation(LinearLayout.VERTICAL);
         addPlayer();
         addPlayer();
-        changedSinceLastFetch = false;
+        changedSinceLastFetch = true;
     }
 }
