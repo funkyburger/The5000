@@ -20,9 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        //View blah = findViewById(R.id.container);
 
-        MainToolBar mainToolBar = (MainToolBar) findViewById(R.id.mainToolBar);
+        MainToolBar mainToolBar = findViewById(R.id.mainToolBar);
         mainToolBar.addEventHandler(new PlayPressedHandler(this));
         mainToolBar.addEventHandler(new PausePressedHandler(this));
 

@@ -36,8 +36,7 @@ public class PlayerSelectItemStack extends EventWireableLinearLayout {
     }
 
     public void addPlayer() {
-        PlayerSelectItem item = new PlayerSelectItem(getContext());
-        item.setPlayer(new Player("Player" + (items.size() + 1)));
+        PlayerSelectItem item = new PlayerSelectItem(getContext(), new Player("Player" + (items.size() + 1)));
         item.addEventHandler(new PlayerAddedHandler(this));
         item.addEventHandler(new PlayerRemovedHandler(this));
 

@@ -27,7 +27,9 @@ public class EnsuringValueEditText extends android.support.v7.widget.AppCompatEd
         }
 
         this.defaultValue = defaultValue;
-        setText(defaultValue);
+        if(overwriteValue) {
+            setText(defaultValue);
+        }
     }
 
     private void initialize() {

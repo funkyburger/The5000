@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,37 +17,35 @@ import funkyburger.the5000.event.EventType;
 import funkyburger.the5000.object.Player;
 
 public class PlayerSelectItem extends EventWireableLinearLayout {
-//    private Player player = null;
     private ImageView addIcon;
     private ImageView removeIcon;
 
     private boolean canAdd;
     private boolean canRemove;
 
-    private android.widget.EditText playerName;
+    private EnsuringValueEditText playerNameField;
 
-    public PlayerSelectItem(Context context) {
+    public PlayerSelectItem(Context context, Player player) {
         super(context);
-        initialize();
+        initialize(player);
     }
 
-    public PlayerSelectItem(Context context, @Nullable AttributeSet attrs) {
+    public PlayerSelectItem(Context context, @Nullable AttributeSet attrs, Player player) {
         super(context, attrs);
-        initialize();
+        initialize(player);
     }
 
-    public PlayerSelectItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PlayerSelectItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr, Player player) {
         super(context, attrs, defStyleAttr);
-        initialize();
+        initialize(player);
     }
 
     public Player getPlayer() {
-        return new Player(playerName.getText().toString());
+        return new Player(playerNameField.getText().toString());
     }
 
     public void setPlayer(Player player) {
-        //this.player = player;
-        playerName.setText(player.getName());
+        playerNameField.setDefaultValue(player.getName(), true);
         refresh();
     }
 
@@ -69,13 +68,7 @@ public class PlayerSelectItem extends EventWireableLinearLayout {
     private void refresh() {
         removeAllViews();
 
-        addView(playerName);
-
-        if(isEnabled()) {
-            playerName.setTextColor(getResources().getColor(R.color.black, getContext().getTheme()));
-        } else {
-            playerName.setTextColor(getResources().getColor(R.color.light_grey, getContext().getTheme()));
-        }
+        addView(playerNameField);
 
         if(canAdd) {
             addView(addIcon);
@@ -86,13 +79,12 @@ public class PlayerSelectItem extends EventWireableLinearLayout {
         }
     }
 
-    private void initialize() {
+    private void initialize(Player player) {
         setOrientation(LinearLayout.HORIZONTAL);
         setMinimumHeight(200);
         setGravity(Gravity.CENTER_VERTICAL);
 
-        playerName = new EditText(getContext());
-        //playerName.setOnKeyListener();
+        playerNameField = new EnsuringValueEditText(getContext(), player.getName());
 
         addIcon = new ImageView(getContext());
         addIcon.setImageResource(android.R.drawable.ic_input_add);
@@ -102,6 +94,6 @@ public class PlayerSelectItem extends EventWireableLinearLayout {
         removeIcon.setImageResource(android.R.drawable.ic_delete);
         removeIcon.setOnClickListener(i -> { trigger(EventType.PlayerRemoved); });
 
-        addView(playerName);
+        addView(playerNameField);
     }
 }
