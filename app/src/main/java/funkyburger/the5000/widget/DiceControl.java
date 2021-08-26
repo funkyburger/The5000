@@ -104,6 +104,14 @@ public class DiceControl extends EventWireableTableLayout {
         this.lost = lost;
     }
 
+    public void setWinning() {
+        buttonRow.setWinning();
+    }
+
+    public void setWon() {
+        buttonRow.setWon();
+    }
+
     private void initialize(){
         diceArray = new DiceArray(getContext(), this, 6, 3);
         buttonRow = new DiceButtonRow(getContext(), this);

@@ -50,6 +50,10 @@ public class PlayerDashboard extends TableRow {
         scoreTag.setText(String.valueOf(player.getScore()));
     }
 
+    public int getScore() {
+        return player.getScore();
+    }
+
     private void initialize(){
         setMinimumHeight(100);
 

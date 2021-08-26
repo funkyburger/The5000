@@ -36,6 +36,10 @@ public class ScoreBoard extends TableLayout {
         dashboards.getCurrent().addScore(score);
     }
 
+    public int getActivePlayerScore() {
+        return dashboards.getCurrent().getScore();
+    }
+
     public void addPlayer(Player player){
         PlayerDashboard dashboard = new PlayerDashboard(getContext(), null);
         dashboard.setPlayer(player);

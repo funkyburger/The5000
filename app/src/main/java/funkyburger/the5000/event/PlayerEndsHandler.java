@@ -1,5 +1,6 @@
 package funkyburger.the5000.event;
 
+import funkyburger.the5000.utils.GameUtil;
 import funkyburger.the5000.widget.DiceControl;
 import funkyburger.the5000.widget.ScoreBoard;
 
@@ -21,15 +22,15 @@ public class PlayerEndsHandler implements EventHandler {
     public void handle(Object sender) {
         DiceControl control = (DiceControl)sender;
 
-        if (control.isLost()) {
-            control.startNewTurn();
-        }
-        else {
+        if (!control.isLost()) {
             scoreBoard.addScoreToActivePlayer(control.getKept());
-
-            control.startNewTurn();
         }
 
-        scoreBoard.nextPlayer();
+        if(GameUtil.isWinningScore(scoreBoard.getActivePlayerScore())) {
+            control.setWon();
+        } else {
+            control.startNewTurn();
+            scoreBoard.nextPlayer();
+        }
     }
 }
