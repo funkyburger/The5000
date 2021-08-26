@@ -26,4 +26,15 @@ public class CircularList<T> extends ArrayList<T> {
 
         return getCurrent();
     }
+
+    public int getCursor() {
+        return cursor;
+    }
+
+    public void setCursor(int cursor) {
+        if(cursor >= size() || cursor < 0) {
+            throw new RuntimeException("Cursor is out of range.");
+        }
+        this.cursor = cursor;
+    }
 }

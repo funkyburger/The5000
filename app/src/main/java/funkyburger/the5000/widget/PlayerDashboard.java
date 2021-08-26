@@ -41,13 +41,20 @@ public class PlayerDashboard extends TableRow {
         scoreTag.setText(String.valueOf(player.getScore()));
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void addScore(int score){
         player.addScore(score);
         scoreTag.setText(String.valueOf(player.getScore()));
     }
 
     private void initialize(){
+        setMinimumHeight(100);
+
         nameTag = new TextView(getContext(), null);
+        nameTag.setPadding(20, 10, 20, 10);
         scoreTag = new TextView(getContext(), null);
 
         addView(nameTag);
