@@ -1,6 +1,7 @@
 package funkyburger.the5000.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
@@ -52,6 +53,10 @@ public class PlayerDashboard extends TableRow {
 
     public int getScore() {
         return player.getScore();
+    }
+
+    public void setWon() {
+        nameTag.setTextColor(Color.parseColor("#ff0000"));
     }
 
     private void initialize(){

@@ -70,7 +70,15 @@ public class ScoreBoard extends TableLayout {
         dashboards.getCurrent().setActive(true);
     }
 
-    public int getActivePlayer() {
+    public Player getActivePlayer() {
+        return dashboards.getCurrent().getPlayer();
+    }
+
+    public int getActivePlayerIndex() {
         return dashboards.getCursor();
+    }
+
+    public void setWon() {
+        dashboards.getCurrent().setWon();
     }
 }

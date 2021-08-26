@@ -1,5 +1,6 @@
 package funkyburger.the5000.event;
 
+import funkyburger.the5000.ui.fragment.PlayFragment;
 import funkyburger.the5000.utils.GameUtil;
 import funkyburger.the5000.widget.DiceControl;
 import funkyburger.the5000.widget.ScoreBoard;
@@ -8,9 +9,12 @@ import funkyburger.the5000.widget.ScoreBoard;
 public class PlayerEndsHandler implements EventHandler {
 
     private ScoreBoard scoreBoard;
+    private PlayFragment playFragment;
 
-    public  PlayerEndsHandler(ScoreBoard scoreBoard){
+    public  PlayerEndsHandler(ScoreBoard scoreBoard, PlayFragment playFragment)
+    {
         this.scoreBoard = scoreBoard;
+        this.playFragment = playFragment;
     }
 
     @Override
@@ -28,6 +32,8 @@ public class PlayerEndsHandler implements EventHandler {
 
         if(GameUtil.isWinningScore(scoreBoard.getActivePlayerScore())) {
             control.setWon();
+            scoreBoard.setWon();
+            playFragment.displayWinMessage();
         } else {
             control.startNewTurn();
             scoreBoard.nextPlayer();
