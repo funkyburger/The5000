@@ -41,6 +41,10 @@ public class PlayerDashboard extends TableRow {
         scoreTag.setText(String.valueOf(player.getScore()));
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void addScore(int score){
         player.addScore(score);
         scoreTag.setText(String.valueOf(player.getScore()));

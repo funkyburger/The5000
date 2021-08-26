@@ -7,8 +7,10 @@ import android.view.View;
 //import android.widget.Toolbar;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import funkyburger.the5000.event.*;
+import funkyburger.the5000.object.CircularList;
 import funkyburger.the5000.object.Player;
 import funkyburger.the5000.ui.fragment.*;
 import funkyburger.the5000.widget.MainToolBar;
@@ -19,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private PlayerSelectFragment playerSelectFragment;
     private PlayFragment playFragment;
 
-    private List<Player> players = null;
+    private CircularList<Player> players = new CircularList<>();
+    private int activePlayerIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.container, playFragment)
                 .commitNow();
 
-        playFragment.setPlayers(getPlayers().stream());
+        playFragment.setPlayers(getPlayers());
+        playFragment.setActivePlayer(activePlayerIndex);
         gameOngoing = true;
     }
 
@@ -58,13 +62,14 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        activePlayerIndex = playFragment.getActivePlayer();
         setPlayers(playFragment.getPlayers());
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, playerSelectFragment)
                 .commitNow();
 
-        playerSelectFragment.setPlayers(getPlayers().stream());
+        playerSelectFragment.setPlayers(getPlayers());
 
         gameOngoing = false;
     }
@@ -77,11 +82,17 @@ public class MainActivity extends AppCompatActivity {
         return playFragment;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public Stream<Player> getPlayers() {
+        return players.stream();
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayers(Stream<Player> players) {
+        if(this.players == null) {
+            this.players = new CircularList<>();
+        } else {
+            this.players.clear();
+        }
+
+        players.forEach(p -> this.players.add(p));
     }
 }

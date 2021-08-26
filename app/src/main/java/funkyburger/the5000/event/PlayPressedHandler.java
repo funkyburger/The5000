@@ -26,18 +26,18 @@ public class PlayPressedHandler implements EventHandler {
         toolBar.setGameOngoing(true);
 
         if (hasPlayerChangedSinceLastFetch()) {
-           mainActivity.setPlayers(mainActivity.getPlayerSelectFragment().getPlayers().collect(Collectors.toList()));
+           mainActivity.setPlayers(mainActivity.getPlayerSelectFragment().getPlayers());
         }
 
         mainActivity.startOrResume();
     }
 
     private boolean hasPlayerChangedSinceLastFetch() {
-        if(mainActivity.getPlayers() == null) {
+        if(!mainActivity.getPlayers().findAny().isPresent()) {
             return true;
         }
 
-        return !StreamUtil.areEqual(mainActivity.getPlayers().stream().map(p -> p.getName())
+        return !StreamUtil.areEqual(mainActivity.getPlayers().map(p -> p.getName())
                 , mainActivity.getPlayerSelectFragment().getPlayers().map(p -> p.getName()));
     }
 }

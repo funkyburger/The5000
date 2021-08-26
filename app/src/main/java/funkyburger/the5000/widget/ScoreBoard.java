@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import funkyburger.the5000.object.CircularList;
 import funkyburger.the5000.object.Player;
@@ -48,10 +49,24 @@ public class ScoreBoard extends TableLayout {
         dashboards.add(dashboard);
     }
 
-    public void setPlayers(List<Player> players) {
+    public Stream<Player> getPlayers() {
+        return dashboards.stream().map(d -> d.getPlayer());
+    }
+
+    public void setPlayers(Stream<Player> players) {
         removeAllViews();
         dashboards.clear();
 
         players.forEach(p -> addPlayer(p));
+    }
+
+    public void setActivePlayer(int activePlayerIndex) {
+        dashboards.forEach(d -> d.setActive(false));
+        dashboards.setCursor(activePlayerIndex);
+        dashboards.getCurrent().setActive(true);
+    }
+
+    public int getActivePlayer() {
+        return dashboards.getCursor();
     }
 }

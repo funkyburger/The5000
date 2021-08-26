@@ -20,8 +20,6 @@ import funkyburger.the5000.widget.*;
 public class PlayFragment extends EventWireableFragment {
 
     private MainActivity mainActivity;
-    private List<Player> players;
-
     private ScoreBoard scoreBoard;
     private DiceControl control;
 
@@ -45,13 +43,19 @@ public class PlayFragment extends EventWireableFragment {
         this.mainActivity = mainActivity;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public Stream<Player> getPlayers() {
+        return scoreBoard.getPlayers();
     }
 
     public void setPlayers(Stream<Player> players) {
-        //List<Player> ps = players.collect(Collectors.toList());
-        this.players = players.collect(Collectors.toList());
-        scoreBoard.setPlayers(this.players);
+        scoreBoard.setPlayers(players);
+    }
+
+    public void setActivePlayer(int activePlayerIndex) {
+        scoreBoard.setActivePlayer(activePlayerIndex);
+    }
+
+    public int getActivePlayer() {
+        return scoreBoard.getActivePlayer();
     }
 }
