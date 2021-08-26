@@ -5,13 +5,12 @@ import funkyburger.the5000.utils.GameUtil;
 import funkyburger.the5000.widget.DiceControl;
 import funkyburger.the5000.widget.ScoreBoard;
 
-// TODO rename to TurnEndsHandler
-public class PlayerEndsHandler implements EventHandler {
+public class EndOfTurnHandler implements EventHandler {
 
     private ScoreBoard scoreBoard;
     private PlayFragment playFragment;
 
-    public  PlayerEndsHandler(ScoreBoard scoreBoard, PlayFragment playFragment)
+    public EndOfTurnHandler(ScoreBoard scoreBoard, PlayFragment playFragment)
     {
         this.scoreBoard = scoreBoard;
         this.playFragment = playFragment;
@@ -19,7 +18,7 @@ public class PlayerEndsHandler implements EventHandler {
 
     @Override
     public EventType getType() {
-        return EventType.PlayerEnds;
+        return EventType.EndOfTurn;
     }
 
     @Override

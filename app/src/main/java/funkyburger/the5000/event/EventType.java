@@ -4,7 +4,7 @@ public enum EventType {
     DiceRolled,
     DiceSelected,
     PlayerKept,
-    PlayerEnds,
+    EndOfTurn,
     PlayPressed,
     PausePressed,
     PlayerAdded,
