@@ -6,55 +6,79 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import funkyburger.the5000.object.CircularList;
+import funkyburger.the5000.object.Player;
+
 public class ScoreBoard extends TableLayout {
-
-    private int current = 0;
-    private int score = 0;
-
     private TextView currentAsText = null;
     private TextView scoreAsText = null;
 
+    private CircularList<PlayerDashboard> dashboards = new CircularList<>();
+
     public ScoreBoard(Context context) {
         super(context);
-        initialize();
     }
 
     public ScoreBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize();
     }
 
-    public int getCurrent() {
-        return current;
+    public void nextPlayer(){
+        dashboards.getCurrent().setActive(false);
+        dashboards.next().setActive(true);
     }
 
-    public void setCurrent(int current) {
-        this.current = current;
-
-        currentAsText.setText("Current : " + current);
+    public void addScoreToActivePlayer(int score) {
+        dashboards.getCurrent().addScore(score);
     }
 
-    public int getScore() {
-        return score;
+    public int getActivePlayerScore() {
+        return dashboards.getCurrent().getScore();
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void addPlayer(Player player){
+        PlayerDashboard dashboard = new PlayerDashboard(getContext(), null);
+        dashboard.setPlayer(player);
 
-        scoreAsText.setText("Score : " + score);
+        addView(dashboard);
+
+        if(dashboards.isEmpty()){
+            dashboard.setActive(true);
+        }
+
+        dashboards.add(dashboard);
     }
 
-    private void initialize(){
-        TableRow row = new TableRow(getContext(), null);
+    public Stream<Player> getPlayers() {
+        return dashboards.stream().map(d -> d.getPlayer());
+    }
 
-        currentAsText = new TextView(getContext(), null);
-        scoreAsText = new TextView(getContext(), null);
+    public void setPlayers(Stream<Player> players) {
+        removeAllViews();
+        dashboards.clear();
 
-        row.addView(currentAsText);
-        row.addView(scoreAsText);
-        this.addView(row);
+        players.forEach(p -> addPlayer(p));
+    }
 
-        setCurrent(0);
-        setScore(0);
+    public void setActivePlayer(int activePlayerIndex) {
+        dashboards.forEach(d -> d.setActive(false));
+        dashboards.setCursor(activePlayerIndex);
+        dashboards.getCurrent().setActive(true);
+    }
+
+    public Player getActivePlayer() {
+        return dashboards.getCurrent().getPlayer();
+    }
+
+    public int getActivePlayerIndex() {
+        return dashboards.getCursor();
+    }
+
+    public void setWon() {
+        dashboards.getCurrent().setWon();
     }
 }

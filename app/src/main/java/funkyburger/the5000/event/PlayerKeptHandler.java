@@ -1,5 +1,6 @@
 package funkyburger.the5000.event;
 
+import funkyburger.the5000.utils.GameUtil;
 import funkyburger.the5000.widget.DiceControl;
 import funkyburger.the5000.widget.ScoreBoard;
 
@@ -27,6 +28,8 @@ public class PlayerKeptHandler implements EventHandler {
         control.setKept(control.getKept() + control.getCurrent());
         control.setCurrent(0);
 
-        scoreBoard.setCurrent(control.getKept());
+        if(GameUtil.isWinningScore(scoreBoard.getActivePlayerScore() + control.getKept())) {
+            control.setWinning();
+        }
     }
 }
