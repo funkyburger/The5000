@@ -1,23 +1,10 @@
 package funkyburger.the5000.widget;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import funkyburger.the5000.event.DiceSelectedHandler;
-import funkyburger.the5000.event.EventHandler;
-import funkyburger.the5000.event.EventHandlerCollection;
 import funkyburger.the5000.event.EventType;
 
 public class DiceControl extends EventWireableTableLayout {
@@ -54,7 +41,7 @@ public class DiceControl extends EventWireableTableLayout {
     }
 
     public void endTurn() {
-        trigger(EventType.PlayerEnds);
+        trigger(EventType.EndOfTurn);
     }
 
     public Stream<Integer> getSelectedDiceValues() {
@@ -102,6 +89,14 @@ public class DiceControl extends EventWireableTableLayout {
     public void setLost(boolean lost) {
         buttonRow.setLost(lost);
         this.lost = lost;
+    }
+
+    public void setWinning() {
+        buttonRow.setWinning();
+    }
+
+    public void setWon() {
+        buttonRow.setWon();
     }
 
     private void initialize(){

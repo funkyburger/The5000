@@ -6,9 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import funkyburger.the5000.MainActivity;
@@ -22,6 +21,7 @@ public class PlayFragment extends EventWireableFragment {
     private MainActivity mainActivity;
     private ScoreBoard scoreBoard;
     private DiceControl control;
+    private MainToolBar toolbar;
 
     @Nullable
     @Override
@@ -34,7 +34,7 @@ public class PlayFragment extends EventWireableFragment {
 
         control.addEventHandler(new DiceRolledHandler());
         control.addEventHandler(new PlayerKeptHandler(scoreBoard));
-        control.addEventHandler(new PlayerEndsHandler(scoreBoard));
+        control.addEventHandler(new EndOfTurnHandler(scoreBoard, this, toolbar));
 
         return view;
     }
@@ -55,7 +55,15 @@ public class PlayFragment extends EventWireableFragment {
         scoreBoard.setActivePlayer(activePlayerIndex);
     }
 
-    public int getActivePlayer() {
-        return scoreBoard.getActivePlayer();
+    public int getActivePlayerIndex() {
+        return scoreBoard.getActivePlayerIndex();
+    }
+
+    public void displayWinMessage() {
+        Toast.makeText(getContext(), "Conglaturation, " + scoreBoard.getActivePlayer().getName() + ", a winner is you !", Toast.LENGTH_SHORT).show();
+    }
+
+    public void shareMainToolBar(MainToolBar toolbar) {
+        this.toolbar = toolbar;
     }
 }

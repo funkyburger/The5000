@@ -18,8 +18,10 @@ public class MainToolBar extends Toolbar {
 
     private ImageView playIcon;
     private ImageView pauseIcon;
+    private ImageView stopIcon;
 
     private boolean gameOngoing = false;
+    private boolean gameWon = false;
 
     public MainToolBar(Context context) {
         super(context);
@@ -49,11 +51,20 @@ public class MainToolBar extends Toolbar {
         refresh();
     }
 
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
+        refresh();
+    }
+
     private void refresh() {
         removeAllViews();
 
         if(gameOngoing){
-            addView(pauseIcon);
+            if(gameWon) {
+                addView(stopIcon);
+            } else {
+                addView(pauseIcon);
+            }
         } else {
             addView(playIcon);
         }
@@ -67,6 +78,10 @@ public class MainToolBar extends Toolbar {
         pauseIcon = new ImageView(getContext());
         pauseIcon.setImageResource(android.R.drawable.ic_media_pause);
         pauseIcon.setOnClickListener(i -> eventHandlers.trigger(EventType.PausePressed));
+
+        stopIcon = new ImageView(getContext());
+        stopIcon.setImageResource(android.R.drawable.ic_media_previous);
+        stopIcon.setOnClickListener(i -> eventHandlers.trigger(EventType.GameEnded));
 
         refresh();
     }
