@@ -8,5 +8,6 @@ public enum EventType {
     PlayPressed,
     PausePressed,
     PlayerAdded,
-    PlayerRemoved
+    PlayerRemoved,
+    GameEnded
 }

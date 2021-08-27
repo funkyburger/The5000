@@ -33,7 +33,7 @@ public class PlayFragment extends EventWireableFragment {
 
         control.addEventHandler(new DiceRolledHandler());
         control.addEventHandler(new PlayerKeptHandler(scoreBoard));
-        control.addEventHandler(new EndOfTurnHandler(scoreBoard, this));
+        control.addEventHandler(new EndOfTurnHandler(scoreBoard, this, );
 
         return view;
     }

@@ -71,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         gameOngoing = false;
     }
 
+    public void resetGame() {
+        players = new CircularList<>();
+        activePlayerIndex = 0;
+    }
+
     public PlayerSelectFragment getPlayerSelectFragment() {
         return playerSelectFragment;
     }
