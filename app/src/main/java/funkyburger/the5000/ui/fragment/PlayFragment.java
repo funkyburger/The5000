@@ -21,6 +21,7 @@ public class PlayFragment extends EventWireableFragment {
     private MainActivity mainActivity;
     private ScoreBoard scoreBoard;
     private DiceControl control;
+    private MainToolBar toolbar;
 
     @Nullable
     @Override
@@ -33,7 +34,7 @@ public class PlayFragment extends EventWireableFragment {
 
         control.addEventHandler(new DiceRolledHandler());
         control.addEventHandler(new PlayerKeptHandler(scoreBoard));
-        control.addEventHandler(new EndOfTurnHandler(scoreBoard, this, );
+        control.addEventHandler(new EndOfTurnHandler(scoreBoard, this, toolbar));
 
         return view;
     }
@@ -60,5 +61,9 @@ public class PlayFragment extends EventWireableFragment {
 
     public void displayWinMessage() {
         Toast.makeText(getContext(), "Conglaturation, " + scoreBoard.getActivePlayer().getName() + ", a winner is you !", Toast.LENGTH_SHORT).show();
+    }
+
+    public void shareMainToolBar(MainToolBar toolbar) {
+        this.toolbar = toolbar;
     }
 }

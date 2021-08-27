@@ -80,8 +80,8 @@ public class MainToolBar extends Toolbar {
         pauseIcon.setOnClickListener(i -> eventHandlers.trigger(EventType.PausePressed));
 
         stopIcon = new ImageView(getContext());
-        pauseIcon.setImageResource(android.R.drawable.ic_media_previous);
-        pauseIcon.setOnClickListener(i -> eventHandlers.trigger(EventType.PausePressed));
+        stopIcon.setImageResource(android.R.drawable.ic_media_previous);
+        stopIcon.setOnClickListener(i -> eventHandlers.trigger(EventType.GameEnded));
 
         refresh();
     }

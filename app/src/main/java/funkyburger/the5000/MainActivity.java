@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean gameOngoing = false;
     private PlayerSelectFragment playerSelectFragment;
     private PlayFragment playFragment;
+    private MainToolBar mainToolBar;
 
     private CircularList<Player> players = new CircularList<>();
     private int activePlayerIndex = 0;
@@ -26,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        MainToolBar mainToolBar = findViewById(R.id.mainToolBar);
+        mainToolBar = findViewById(R.id.mainToolBar);
         mainToolBar.addEventHandler(new PlayPressedHandler(this));
         mainToolBar.addEventHandler(new PausePressedHandler(this));
+        mainToolBar.addEventHandler(new GameEndedHandler(this));
 
         playerSelectFragment = new PlayerSelectFragment();
         playFragment = new PlayFragment();
+        playFragment.shareMainToolBar(mainToolBar);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -71,9 +74,16 @@ public class MainActivity extends AppCompatActivity {
         gameOngoing = false;
     }
 
-    public void resetGame() {
+    public void stop() {
         players = new CircularList<>();
         activePlayerIndex = 0;
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, playerSelectFragment)
+                .commitNow();
+
+        gameOngoing = false;
+        mainToolBar.setGameWon(false);
     }
 
     public PlayerSelectFragment getPlayerSelectFragment() {
@@ -89,11 +99,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPlayers(Stream<Player> players) {
-        if(this.players == null) {
-            this.players = new CircularList<>();
-        } else {
-            this.players.clear();
-        }
+        this.players.clear();
 
         players.forEach(p -> this.players.add(p));
     }

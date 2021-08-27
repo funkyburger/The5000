@@ -20,7 +20,6 @@ public class GameEndedHandler implements EventHandler {
         MainToolBar toolBar = (MainToolBar)sender;
         toolBar.setGameOngoing(false);
 
-        mainActivity.resetGame();
-        mainActivity.pause();
+        mainActivity.stop();
     }
 }
