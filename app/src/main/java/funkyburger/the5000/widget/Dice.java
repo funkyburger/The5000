@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -111,91 +112,39 @@ public class Dice extends ImageView {
     private void render(){
         switch (value) {
             case 0:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice0);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice0);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice0);
-                    }
-                }
+                setImageResource(R.drawable.dice_0);
                 break;
             case 1:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice1);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice1);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice1);
-                    }
-                }
+                setImageResource(R.drawable.dice_1);
                 break;
             case 2:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice2);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice2);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice2);
-                    }
-                }
+                setImageResource(R.drawable.dice_2);
                 break;
             case 3:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice3);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice3);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice3);
-                    }
-                }
+                setImageResource(R.drawable.dice_3);
                 break;
             case 4:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice4);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice4);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice4);
-                    }
-                }
+                setImageResource(R.drawable.dice_4);
                 break;
             case 5:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice5);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice5);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice5);
-                    }
-                }
+                setImageResource(R.drawable.dice_5);
                 break;
             case 6:
-                if(!isEnabled()){
-                    setImageResource(R.drawable.ic_disabled_dice6);
-                } else {
-                    if(isSelected()){
-                        setImageResource(R.drawable.ic_selected_dice6);
-                    }
-                    else{
-                        setImageResource(R.drawable.ic_dice6);
-                    }
-                }
+                setImageResource(R.drawable.dice_6);
                 break;
             default:
                 throw new RuntimeException("Invalid value of dice '" + value + "'");
+        }
+
+        if(!isEnabled()){
+            setColorFilter(ContextCompat.getColor(getContext(), R.color.disabled));
+        } else {
+            if(isSelected()){
+                setColorFilter(ContextCompat.getColor(getContext(), R.color.selected));
+            }
+            else{
+                setColorFilter(ContextCompat.getColor(getContext(), R.color.enabled));
+            }
         }
     }
 
